@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,12 +15,14 @@
 		B60B8A052ACCAD300083315D /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B60B8A042ACCAD300083315D /* Shaders.metal */; };
 		B65B5A5A24F4409F00E74E73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A5924F4409F00E74E73 /* AppDelegate.swift */; };
 		B65B5A5C24F4409F00E74E73 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A5B24F4409F00E74E73 /* SceneDelegate.swift */; };
-		B65B5A5E24F4409F00E74E73 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A5D24F4409F00E74E73 /* ViewController.swift */; };
 		B65B5A6124F4409F00E74E73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B65B5A5F24F4409F00E74E73 /* Main.storyboard */; };
 		B65B5A6324F440A100E74E73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B65B5A6224F440A100E74E73 /* Assets.xcassets */; };
 		B65B5A6624F440A100E74E73 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B65B5A6424F440A100E74E73 /* LaunchScreen.storyboard */; };
-		B65B5A7524F4440300E74E73 /* satisfaction.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B65B5A7424F4440300E74E73 /* satisfaction.mp3 */; };
 		B65B5A7A24F4523C00E74E73 /* AudioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7924F4523C00E74E73 /* AudioModel.swift */; };
+		CF8D9FFE2CBA206F0027C920 /* [iSongs.info] 05 - Red Sea.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CF8D9FFD2CBA206F0027C920 /* [iSongs.info] 05 - Red Sea.mp3 */; };
+		D9B13CAF2CB462DB00E0473C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B13CAE2CB462DB00E0473C /* MainViewController.swift */; };
+		D9B13CB12CB463F700E0473C /* AViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B13CB02CB463F700E0473C /* AViewController.swift */; };
+		D9B13CB32CB4788500E0473C /* BViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B13CB22CB4788500E0473C /* BViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,14 +39,16 @@
 		B65B5A5624F4409F00E74E73 /* AudioLabSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioLabSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B65B5A5924F4409F00E74E73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B65B5A5B24F4409F00E74E73 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B65B5A5D24F4409F00E74E73 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B65B5A6024F4409F00E74E73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B65B5A6224F440A100E74E73 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B65B5A6524F440A100E74E73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B65B5A6724F440A100E74E73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B65B5A6D24F440D500E74E73 /* AudioLabSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AudioLabSwift-Bridging-Header.h"; sourceTree = "<group>"; };
-		B65B5A7424F4440300E74E73 /* satisfaction.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = satisfaction.mp3; sourceTree = "<group>"; };
 		B65B5A7924F4523C00E74E73 /* AudioModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioModel.swift; sourceTree = "<group>"; };
+		CF8D9FFD2CBA206F0027C920 /* [iSongs.info] 05 - Red Sea.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "[iSongs.info] 05 - Red Sea.mp3"; sourceTree = "<group>"; };
+		D9B13CAE2CB462DB00E0473C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		D9B13CB02CB463F700E0473C /* AViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AViewController.swift; sourceTree = "<group>"; };
+		D9B13CB22CB4788500E0473C /* BViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,15 +100,17 @@
 			children = (
 				B60B89F12ACC96500083315D /* Utilities */,
 				B65B5A5924F4409F00E74E73 /* AppDelegate.swift */,
+				D9B13CB02CB463F700E0473C /* AViewController.swift */,
+				D9B13CB22CB4788500E0473C /* BViewController.swift */,
 				B65B5A5B24F4409F00E74E73 /* SceneDelegate.swift */,
-				B65B5A5D24F4409F00E74E73 /* ViewController.swift */,
+				D9B13CAE2CB462DB00E0473C /* MainViewController.swift */,
 				B65B5A7924F4523C00E74E73 /* AudioModel.swift */,
 				B65B5A5F24F4409F00E74E73 /* Main.storyboard */,
 				B65B5A6224F440A100E74E73 /* Assets.xcassets */,
 				B65B5A6424F440A100E74E73 /* LaunchScreen.storyboard */,
 				B65B5A6724F440A100E74E73 /* Info.plist */,
 				B65B5A6D24F440D500E74E73 /* AudioLabSwift-Bridging-Header.h */,
-				B65B5A7424F4440300E74E73 /* satisfaction.mp3 */,
+				CF8D9FFD2CBA206F0027C920 /* [iSongs.info] 05 - Red Sea.mp3 */,
 			);
 			path = AudioLabSwift;
 			sourceTree = "<group>";
@@ -135,8 +141,9 @@
 		B65B5A4E24F4409F00E74E73 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1600;
 				ORGANIZATIONNAME = "Eric Larson";
 				TargetAttributes = {
 					B65B5A5524F4409F00E74E73 = {
@@ -170,8 +177,8 @@
 			files = (
 				B65B5A6624F440A100E74E73 /* LaunchScreen.storyboard in Resources */,
 				B65B5A6324F440A100E74E73 /* Assets.xcassets in Resources */,
-				B65B5A7524F4440300E74E73 /* satisfaction.mp3 in Resources */,
 				B65B5A6124F4409F00E74E73 /* Main.storyboard in Resources */,
+				CF8D9FFE2CBA206F0027C920 /* [iSongs.info] 05 - Red Sea.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,13 +190,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				B60B8A002ACC96B30083315D /* FFTHelper.m in Sources */,
+				D9B13CB32CB4788500E0473C /* BViewController.swift in Sources */,
+				D9B13CAF2CB462DB00E0473C /* MainViewController.swift in Sources */,
 				B60B89FD2ACC96B30083315D /* MetalGraph.swift in Sources */,
 				B60B89FC2ACC96B30083315D /* AudioFileReader.m in Sources */,
+				D9B13CB12CB463F700E0473C /* AViewController.swift in Sources */,
 				B65B5A7A24F4523C00E74E73 /* AudioModel.swift in Sources */,
 				B60B8A052ACCAD300083315D /* Shaders.metal in Sources */,
 				B60B89FF2ACC96B30083315D /* Novocaine.m in Sources */,
 				B60B8A012ACC96B30083315D /* CircularBuffer.m in Sources */,
-				B65B5A5E24F4409F00E74E73 /* ViewController.swift in Sources */,
 				B65B5A5A24F4409F00E74E73 /* AppDelegate.swift in Sources */,
 				B65B5A5C24F4409F00E74E73 /* SceneDelegate.swift in Sources */,
 			);
@@ -243,6 +252,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -253,6 +263,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -303,6 +314,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -313,6 +325,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -337,14 +350,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F69WJ27LN4;
+				DEVELOPMENT_TEAM = ZS4XJQ5453;
 				INFOPLIST_FILE = AudioLabSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = SMU.AudioLabSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = AudioLabSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "AudioLabSwift/AudioLabSwift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -359,14 +372,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F69WJ27LN4;
+				DEVELOPMENT_TEAM = ZS4XJQ5453;
 				INFOPLIST_FILE = AudioLabSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = SMU.AudioLabSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = AudioLabSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "AudioLabSwift/AudioLabSwift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

@@ -38,22 +38,121 @@ class AudioModel {
         fftData = Array.init(repeating: 0.0, count: BUFFER_SIZE/2)
     }
     
-    // public function for starting processing of microphone data
-    func startMicrophoneProcessing(withFps:Double){
-        // setup the microphone to copy to circualr buffer
-        if let manager = self.audioManager{
-            manager.inputBlock = self.handleMicrophone
-            
-            // repeat this fps times per second using the timer class
-            //   every time this is called, we update the arrays "timeData" and "fftData"
-            Timer.scheduledTimer(withTimeInterval: 1.0/withFps, repeats: true) { _ in
-                self.runEveryInterval()
-            }
-            
+    func applyWindowFunction(to data: inout [Float]) {
+        var window = [Float](repeating: 0.0, count: data.count)
+        vDSP_hamm_window(&window, vDSP_Length(data.count), 0)
+        vDSP_vmul(data, 1, window, 1, &data, 1, vDSP_Length(data.count))
+    }
+    
+    func getMaxFrequencyMagnitude() -> (Float, Float) {
+        var maxValue: Float = -1000.0
+        var maxIndex: vDSP_Length = 0
+        
+        if inputBuffer != nil {
+            vDSP_maxvi(fftData, 1, &maxValue, &maxIndex, vDSP_Length(fftData.count))
         }
+        
+        let frequency = Float(maxIndex) / Float(BUFFER_SIZE) * Float(self.audioManager!.samplingRate)
+        return (maxValue, frequency)
     }
     
     
+    func startProcessingSinewaveForPlayback(withFreq: Float = 330.0) {
+        sineFrequency = withFreq
+        guard let audioManager = audioManager else {
+            print("Audio Manager is not initialized.")
+            return
+        }
+        audioManager.setOutputBlockToPlaySineWave(sineFrequency)
+    }
+    
+    func processMicrophoneData() {
+           // Apply window function to reduce spectral leakage
+           applyWindowFunction(to: &timeData)
+           
+           // Perform FFT on the windowed time data
+           fftHelper?.performForwardFFT(withData: &timeData, andCopydBMagnitudeToBuffer: &fftData)
+       }
+
+    // public function for starting processing of microphone data
+    func startMicrophoneProcessing(withFps:Double){
+        if let manager = self.audioManager {
+                   manager.inputBlock = self.handleMicrophone
+                   
+                   // Set up a timer to process audio data at the given FPS
+                   Timer.scheduledTimer(withTimeInterval: 1.0 / withFps, repeats: true) { _ in
+                       self.processMicrophoneData()  // Process microphone data at each interval
+                       self.runEveryInterval()       // Periodic callback to process FFT
+                   }
+               }
+    }
+    
+    
+    // Function to stop the audio manager if it is running.
+    func stop() {
+        audioManager?.pause()
+
+        // Clear the input block to stop microphone processing
+        audioManager?.inputBlock = nil
+    }
+    
+
+
+    
+    private var currentFrameIndex: Int = 0
+    
+    private func updateData() {
+        guard let fileBuffer = fileBuffer else { return }
+         
+         // Get audio samples and update timeData
+         let frameLength = min(fileBuffer.frameLength, AVAudioFrameCount(BUFFER_SIZE), fileBuffer.frameLength - AVAudioFrameCount(currentFrameIndex))
+         if frameLength == 0 {
+             currentFrameIndex = 0
+             return
+         }
+         
+         let channelData = fileBuffer.floatChannelData![0]
+         timeData = Array(UnsafeBufferPointer(start: channelData.advanced(by: Int(currentFrameIndex)), count: Int(frameLength)))
+         
+         // Apply FFT on the windowed time data
+         applyWindowFunction(to: &timeData)
+         fftHelper?.performForwardFFT(withData: &timeData, andCopydBMagnitudeToBuffer: &fftData)
+         
+         currentFrameIndex += Int(frameLength)
+    }
+    
+    func getTwoLoudestFrequencies(threshold: Float = 0.01) -> (Float?, Float?) {
+        var loudestFrequency: (magnitude: Float, frequency: Float)? = nil
+         var secondLoudestFrequency: (magnitude: Float, frequency: Float)? = nil
+         
+         // Iterate through FFT data to find two loudest frequencies
+         for i in 0..<fftData.count {
+             let magnitude = fftData[i]
+             let frequency = Float(i) * Float(samplingRate) / Float(fftData.count * 2)
+             
+             // Ignore very low frequencies (below 100Hz)
+             if frequency < 100.0 {
+                 continue
+             }
+             
+             // Check if the magnitude is above the threshold
+             if magnitude > threshold {
+                 if loudestFrequency == nil || magnitude > loudestFrequency!.magnitude {
+                     secondLoudestFrequency = loudestFrequency
+                     loudestFrequency = (magnitude, frequency)
+                 } else if secondLoudestFrequency == nil || magnitude > secondLoudestFrequency!.magnitude {
+                     secondLoudestFrequency = (magnitude, frequency)
+                 }
+             }
+         }
+         
+         return (loudestFrequency?.frequency, secondLoudestFrequency?.frequency)
+    }
+    
+    
+    
+
+       
     // You must call this when you want the audio to start being handled by our model
     func play(){
         if let manager = self.audioManager{
@@ -71,11 +170,29 @@ class AudioModel {
     private lazy var fftHelper:FFTHelper? = {
         return FFTHelper.init(fftSize: Int32(BUFFER_SIZE))
     }()
+    private lazy var outputBuffer: CircularBuffer? = {
+        return CircularBuffer(numChannels: Int64(self.audioManager!.numOutputChannels),
+                              andBufferSize: Int64(BUFFER_SIZE))
+    }()
     
     
     private lazy var inputBuffer:CircularBuffer? = {
         return CircularBuffer.init(numChannels: Int64(self.audioManager!.numInputChannels),
                                    andBufferSize: Int64(BUFFER_SIZE))
+    }()
+    
+    private lazy var fileReader: AudioFileReader? = {
+        if let url = Bundle.main.url(forResource: "satisfaction", withExtension: "mp3") {
+            let tmpFileReader = AudioFileReader(audioFileURL: url,
+                                                samplingRate: Float(audioManager!.samplingRate),
+                                                numChannels: audioManager!.numOutputChannels)
+            tmpFileReader?.currentTime = 0.0
+            print("Audio file successfully loaded for \(url)")
+            return tmpFileReader
+        } else {
+            print("Could not initialize audio input file")
+            return nil
+        }
     }()
     
     
@@ -86,21 +203,19 @@ class AudioModel {
     //==========================================
     // MARK: Model Callback Methods
     private func runEveryInterval(){
-        if inputBuffer != nil {
-            // copy time data to swift array
-            self.inputBuffer!.fetchFreshData(&timeData, // copied into this array
-                                             withNumSamples: Int64(BUFFER_SIZE))
+        
+        guard let inputBuffer = inputBuffer else {
+                    print("Input buffer is not initialized.")
+                    return
+                }
+
+                // Fetch fresh data into timeData
+                inputBuffer.fetchFreshData(&timeData, withNumSamples: Int64(BUFFER_SIZE))
+
             
-            // now take FFT
-            fftHelper!.performForwardFFT(withData: &timeData,
-                                         andCopydBMagnitudeToBuffer: &fftData) // fft result is copied into fftData array
-            
-            // at this point, we have saved the data to the arrays:
-            //   timeData: the raw audio samples
-            //   fftData:  the FFT of those same samples
-            // the user can now use these variables however they like
-            
-        }
+            // Apply Hamming window and FFT
+            applyWindowFunction(to: &timeData)
+            fftHelper?.performForwardFFT(withData: &timeData, andCopydBMagnitudeToBuffer: &fftData)
     }
     
     //==========================================

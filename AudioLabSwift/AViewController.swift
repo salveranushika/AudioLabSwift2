@@ -2,7 +2,7 @@
 //  AViewController.swift
 //  AudioLabSwift
 //
-//  Created by Ayush  on 10/8/24.
+//  Created by Ruthiwik  on 10/8/24.
 //  Copyright © 2024 Eric Larson. All rights reserved.
 //
 
@@ -17,13 +17,13 @@ class AViewController: UIViewController {
     var audio = AudioModel(buffer_size: AudioConstants.AUDIO_BUFFER_SIZE)
     var frequencyLabel1: UILabel!
     var frequencyLabel2: UILabel!
-    var vowelLabel: UILabel!  // Label for vowel detection
+    var vowelLabel: UILabel!  // To Label for vowel detection
     
     var lastFreq1: Float?
     var lastFreq2: Float?
     let magnitudeThreshold: Float = 0.01
     
-    var noiseTimeoutCounter: Int = 0 // Counter to detect if we've seen noise for a while
+    var noiseTimeoutCounter: Int = 0 // To detect if we've seen noise for a while
     let noiseTimeoutLimit: Int = 10
 
     override func viewDidLoad() {
@@ -31,15 +31,15 @@ class AViewController: UIViewController {
         
         title = "Module A"
         
-        // Initialize frequency and vowel labels
+        // To initialize frequency and vowel labels
         setupFrequencyLabels()
 
-        // Start microphone processing
+        // To start microphone processing
         audio.startMicrophoneProcessing(withFps: 10)
         audio.play()
         
 
-        // Setup a timer to update the UI with frequency data
+        // To setup a timer to update the UI with frequency data
         Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateFrequencyLabels), userInfo: nil, repeats: true)
         
     }
@@ -61,11 +61,11 @@ class AViewController: UIViewController {
          self.view.addSubview(vowelLabel)
      }
      
-     // Function that updates the frequency and vowel labels
+     // This is a function that updates the frequency and vowel labels
      @objc func updateFrequencyLabels() {
          let (freq1, freq2) = audio.getTwoLoudestFrequencies(threshold: magnitudeThreshold)
          
-         // If both frequencies are significant (above threshold)
+         // If we are having both frequencies are significant (above threshold)
          if let f1 = freq1, let f2 = freq2 {
              lastFreq1 = f1
              lastFreq2 = f2
@@ -73,19 +73,19 @@ class AViewController: UIViewController {
              frequencyLabel2.text = String(format: "Frequency 2: %.2f Hz", f2)
              noiseTimeoutCounter = 0 // Reset noise counter as valid frequencies are detected
          } else if let f1 = freq1 {
-             // Only one frequency is significant
+             // If only 1 frequency is significant
              lastFreq1 = f1
              frequencyLabel1.text = String(format: "Frequency 1: %.2f Hz", f1)
              frequencyLabel2.text = "Frequency 2: ---"
              noiseTimeoutCounter = 0
          } else if let f2 = freq2 {
-             // Only one frequency is significant
+             // If Only 1 frequency is significant
              lastFreq2 = f2
              frequencyLabel1.text = "Frequency 1: ---"
              frequencyLabel2.text = String(format: "Frequency 2: %.2f Hz", f2)
              noiseTimeoutCounter = 0
          } else {
-             // No significant frequencies detected
+             // If no significant frequencies detected
              noiseTimeoutCounter += 1
          }
          
@@ -102,9 +102,9 @@ class AViewController: UIViewController {
          }
      }
      
-    // Function to classify vowel sounds based on the detected formant frequencies.
+    // To classify vowel sounds based on the detected formant frequencies.
     func classifyVowelSound(f1: Float, f2: Float) {
-        // Print detected formant frequencies for debugging
+        // To print detected formant frequencies for debugging
         print("Classifying Vowel: F1: \(f1), F2: \(f2)")
         
         if (f1 < 120 && f2 < 140) {
@@ -116,7 +116,7 @@ class AViewController: UIViewController {
     }
 
     
-    // Stop the audio processing when the view disappears
+    // To stop the audio processing when the view disappears
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         audio.stop()
