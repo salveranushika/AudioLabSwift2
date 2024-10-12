@@ -8,6 +8,7 @@
 
 import Foundation
 import Accelerate
+import AVFoundation
 
 class AudioModel {
     
@@ -20,6 +21,14 @@ class AudioModel {
     lazy var samplingRate:Int = {
         return Int(self.audioManager!.samplingRate)
     }()
+    
+    
+
+    private var audioEngine: AVAudioEngine?
+    private var audioFile: AVAudioFile?
+    private var audioPlayerNode: AVAudioPlayerNode?
+    private var fileBuffer: AVAudioPCMBuffer?
+    private var processingTimer: Timer?
     
     // MARK: Public Methods
     init(buffer_size:Int) {
@@ -102,6 +111,27 @@ class AudioModel {
         // copy samples from the microphone into circular buffer
         self.inputBuffer?.addNewFloatData(data, withNumSamples: Int64(numFrames))
     }
+
     
+    var sineFrequency: Float = 0.0 {
+        didSet {
+            self.audioManager?.sineFrequency = sineFrequency
+        }
+    }
     
+    private var phase: Float = 0.0
+    private var phaseIncrement: Float = 0.0
+    private var sineWaveRepeatMax: Float = Float(2 * Double.pi)
+    
+    private func handleSpeakerQueryWithSinusoid(data: Optional<UnsafeMutablePointer<Float>>, numFrames: UInt32, numChannels: UInt32) {
+        if let arrayData = data {
+            var i = 0
+            while i < numFrames {
+                arrayData[i] = sin(phase)
+                phase += phaseIncrement
+                if phase >= sineWaveRepeatMax { phase -= sineWaveRepeatMax }
+                i += 1
+            }
+        }
+    }
 }
